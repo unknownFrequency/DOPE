@@ -12,11 +12,22 @@
 <% if @jobs.empty? %>
   <h3><span class="text-warning">Ingen todo's</span></h3>
 <% else %>
-  <% if params[:show_all_jobs] == "false" %>
-    <%= link_to "Vis alle", jobs_path(show_all_jobs: true) %> 
+  <% if params[:show_all_jobs] == "true" %>
+    <%= link_to "Vis åbne", jobs_path %> 
+    <% if params[:sort_by_date] == "true" %>
+      <%= link_to "Sorter efter dato", jobs_path(show_all_jobs: "true", sort_by_date: "false") %> 
+    <% else %>
+      <%= link_to "Sorter efter dato", jobs_path(show_all_jobs: "true", sort_by_date: "true") %> 
+    <% end %>
   <% else %>
-    <%= link_to "Vis åbne", jobs_path(show_all_jobs: false) %> 
+    <%= link_to "Vis alle", jobs_path(show_all_jobs: "true") %> 
+    <% if params[:sort_by_date].present? && params[:sort_by_date] == "false" %>
+      <%= link_to "Sorter efter dato V", jobs_path(sort_by_date: "true") %> 
+    <% else %>
+      <%= link_to "Sorter efter dato ^", jobs_path(sort_by_date: "false") %> 
+    <% end %>
   <% end %>
+
   <table class="table table-hover table-bordered">
     <thead>
       <tr>
@@ -31,7 +42,7 @@
       <% @jobs.each do |job| %>
         <tr>
           <td><%= link_to job.body, edit_job_path(job) %></td>
-          <td class="text-info"  %><%= job.created_at %></td>
+          <td class="text-info"  %><%= job.created_at.strftime("%d-%m-%Y") %></td>
           <% if job.status %>
             <td class="text-success">Færdig</td>
           <% else %>

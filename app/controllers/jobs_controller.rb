@@ -2,7 +2,14 @@ class JobsController < ApplicationController
   before_action :set_job, only: [:show, :edit, :update, :destroy]
 
   def index
-    params[:show_all_jobs] == "true" ? @jobs = Job.all : @jobs = Job.status(false)
+    params[:show_all_jobs].present? ? @jobs = Job.all : @jobs = Job.status(false)
+
+    if params[:sort_by_date].present? && params[:sort_by_date] == "true"
+      @jobs = @jobs.sort_by &:created_at 
+    else
+      @jobs = @jobs.sort_by &:created_at 
+      @jobs.reverse!
+    end
   end
 
   def show
