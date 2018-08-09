@@ -14,6 +14,7 @@
 <% else %>
   <% if params[:show_all_jobs] == "true" %>
     <%= link_to "Vis åbne", jobs_path %> 
+
     <% if params[:sort_by_date] == "true" %>
       <%= link_to "Sorter efter dato", jobs_path(show_all_jobs: "true", sort_by_date: "false") %> 
     <% else %>
@@ -21,6 +22,7 @@
     <% end %>
   <% else %>
     <%= link_to "Vis alle", jobs_path(show_all_jobs: "true") %> 
+
     <% if params[:sort_by_date].present? && params[:sort_by_date] == "false" %>
       <%= link_to "Sorter efter dato V", jobs_path(sort_by_date: "true") %> 
     <% else %>
@@ -31,7 +33,7 @@
   <table class="table table-hover table-bordered">
     <thead>
       <tr>
-        <th>Body</th>
+        <th>Todo</th>
         <th>Oprettet</th>
         <th>Status</th>
         <th colspan="3"></th>
