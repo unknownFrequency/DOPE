@@ -12,6 +12,11 @@
 <% if @jobs.empty? %>
   <h3><span class="text-warning">Ingen todo's</span></h3>
 <% else %>
+  <% if params[:show_all_jobs] == "false" %>
+    <%= link_to "Vis alle", jobs_path(show_all_jobs: true) %> 
+  <% else %>
+    <%= link_to "Vis åbne", jobs_path(show_all_jobs: false) %> 
+  <% end %>
   <table class="table table-hover table-bordered">
     <thead>
       <tr>
@@ -42,8 +47,8 @@
                   <i class="icon-ok icon-white"></i> Færdig
                   <%= form.hidden_field(:status, value: true) %>
                 <% end %>
-                <% else %>
-                  <%= button_tag(type: 'submit', class: "btn btn-warning") do %>
+              <% else %>
+                <%= button_tag(type: 'submit', class: "btn btn-warning") do %>
                   <i class="icon-remove icon-white"></i> Genåben
                   <%= form.hidden_field(:status, value: false) %>
                 <% end %>

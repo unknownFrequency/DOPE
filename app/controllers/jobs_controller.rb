@@ -2,7 +2,7 @@ class JobsController < ApplicationController
   before_action :set_job, only: [:show, :edit, :update, :destroy]
 
   def index
-    @jobs = Job.all
+    params[:show_all_jobs] == "true" ? @jobs = Job.all : @jobs = Job.status(false)
   end
 
   def show
@@ -56,6 +56,6 @@ class JobsController < ApplicationController
     end
 
     def job_params
-      params.require(:job).permit(:body, :status)
+      params.require(:job).permit(:body, :status, :show_all_jobs)
     end
 end
