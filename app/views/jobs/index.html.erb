@@ -1,0 +1,61 @@
+<p id="notice"><%= notice %></p>
+<%= debug params %>
+
+<div class="row-fluid">
+  <div class="span10 offset1">
+    <div class="hero-unit">
+      <h1>Todo's</h1>
+    </div>
+  </div>
+</div>
+
+<% if @jobs.empty? %>
+  <h3><span class="text-warning">Ingen todo's</span></h3>
+<% else %>
+  <table class="table table-hover table-bordered">
+    <thead>
+      <tr>
+        <th>Body</th>
+        <th>Oprettet</th>
+        <th>Status</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @jobs.each do |job| %>
+        <tr>
+          <td><%= link_to job.body, edit_job_path(job) %></td>
+          <td class="text-info"  %><%= job.created_at %></td>
+          <% if job.status %>
+            <td class="text-success">Færdig</td>
+          <% else %>
+            <td class="text-danger">Åben</td>
+          <% end %>
+
+          <td><%= link_to 'Slet', job, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+
+          <%= form_with(model: job, local: true) do |form| %>
+            <td>
+              <% if job.status == false %>
+                <%= button_tag(type: 'submit', class: "btn btn-success") do %>
+                  <i class="icon-ok icon-white"></i> Færdig
+                  <%= form.hidden_field(:status, value: true) %>
+                <% end %>
+                <% else %>
+                  <%= button_tag(type: 'submit', class: "btn btn-warning") do %>
+                  <i class="icon-remove icon-white"></i> Genåben
+                  <%= form.hidden_field(:status, value: false) %>
+                <% end %>
+              <% end %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+  <br>
+
+  <%= link_to 'Ny Todo', new_job_path %>
