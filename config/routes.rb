@@ -3,4 +3,7 @@ Rails.application.routes.draw do
   root 'welcome#index'
   get 'welcome/index'
 
+  get 'login', to: 'users#index'
+  post 'login', to: 'users#login'
+
 end
