@@ -8,6 +8,6 @@ Rails.application.routes.draw do
 
   get '/oauth/callback', to: 'data#create_session'
   get 'session', to: 'data#create_session'
-  # get 'index', to: 'data#index'
+  get 'index', to: 'data#index'
 
 end
