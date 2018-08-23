@@ -6,4 +6,7 @@ Rails.application.routes.draw do
   get 'login', to: 'users#index'
   post 'login', to: 'users#login'
 
+  get '/oauth/callback', to: 'data#create_session'
+  get '/index', to: 'data#index'
+
 end
