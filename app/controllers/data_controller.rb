@@ -1,9 +1,9 @@
 class DataController < ApplicationController
   def index
     if session[:current_access_token]
-      logger.debug session[:current_access_token]
-      # logger.debug "ENV ENV ENV #{ENV['ORGANIZATION_ID']}"
-      response = HTTParty.get "#{ENV['DINERO_API']}/#{ENV['ORGANIZATION_ID']}/contacts", 
+      url = "#{ENV['DINERO_API_URL']}/#{ENV['ORGANIZATION_ID']}/contacts"
+
+      response = HTTParty.get url, 
           headers: { 
             Authorization: "Bearer #{session[:current_access_token]}",
             Accept: "application/json",
@@ -22,7 +22,9 @@ class DataController < ApplicationController
   end
 
   def create_session
-    response = HTTParty.post "#{ENV['OAUTH_PROVIDER_URL']}/oauth/token", 
+    url = "#{ENV['OAUTH_PROVIDER_URL']}/oauth/token"
+
+    response = HTTParty.post url, 
       headers: { 
         Authorization: "Basic #{ENV['BASE64_ENCODED_CLIENT_ID_AND_SECRET']}",
         Accept: "application/x-www-form-urlencoded"
@@ -32,7 +34,7 @@ class DataController < ApplicationController
         scope: "read write",
         username: ENV["API_KEY"],
         password: ENV["API_KEY"]
-        # redirect_uri: ENV['OAUTH_REDIRECT_URI']
+        # redirect_uri: ENV['OAUTH_REDIRECT_URL']
       } 
 
     session[:current_access_token] = response["access_token"]

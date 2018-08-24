@@ -1,6 +1,6 @@
-DINERO_API: "https://api.dinero.dk/v1"
+DINERO_API_URL: "https://api.dinero.dk/v1"
 OAUTH_PROVIDER_URL: "https://authz.dinero.dk/dineroapi"
-OAUTH_REDIRECT_URI: "/oauth/callback"
+OAUTH_REDIRECT_URL: "/oauth/callback"
 API_KEY: "1f7ec76c2b4c418f802690a922d93226"
 CLIENT_ID: "ALCO"
 CLIENT_SECRET: "SAGqbeheya6gKvuSstUemHB0fwJteZPTUC75TMKpNI" 
