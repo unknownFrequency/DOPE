@@ -23,7 +23,7 @@ class JobsController < ApplicationController
   end
 
   def create
-    @job = Job.new(job_params)
+    @job = Job.new job_params 
     @job.status = false
 
     respond_to do |format|

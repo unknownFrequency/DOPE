@@ -1,0 +1,33 @@
+<%= form_with model: @user do |form| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= @user.errors.count %> fejl forhindrede dette job i at blive gemt:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.text_field :client_id, placeholder: "Client ID" %>
+  </div>
+
+  <div class="field">
+    <%= form.text_field :client_secret, placeholder: "Client Secret"  %>
+  </div>
+
+  <div class="field">
+    <%= form.text_field :api_key, placeholder: "Api key"  %>
+  </div>
+
+  <div class="field">
+    <%= form.text_field :email, placeholder: "Email"  %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Log ind" %>
+  </div>
+<% end %>

@@ -1,5 +1,3 @@
-include HTTParty
-
 class User < ApplicationRecord
   def getToken
     # uri = URI.parse "https://authz.dinero.dk/dineroapi/oauth/token" 
