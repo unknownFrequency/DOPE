@@ -18,7 +18,8 @@ class DataController < ApplicationController
       contacts = response["Collection"][4158303]
       render plain: contacts
     else
-      redirect_to "/session"
+      render plain: @user.inspect
+      # redirect_to "/session"
     end
   end
 
