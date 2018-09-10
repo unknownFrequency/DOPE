@@ -1,5 +1,5 @@
-require 'net/http' 
-require 'uri'
+# require 'net/http' 
+# require 'uri'
 
 class DataController < ApplicationController
   OAUTH_PROVIDER_URL = "https://authz.dinero.dk/dineroapi"
@@ -29,43 +29,43 @@ class DataController < ApplicationController
 
   def self.create_session(base64_encoded_client_id_and_secret, api_key)
 
-    uri = URI.parse("https://authz.dinero.dk/dineroapi/oauth/token")
-    request = Net::HTTP::Post.new(uri)
-    request.content_type = "application/x-www-form-urlencoded"
-    request["Authorization"] = "Basic #{base64_encoded_client_id_and_secret}"
-    request.set_form_data(
-      "grant_type" => "password",
-      "password" => api_key,
-      "username" => api_key,
-    )
+    # uri = URI.parse("https://authz.dinero.dk/dineroapi/oauth/token")
+    # request = Net::HTTP::Post.new(uri)
+    # request.content_type = "application/x-www-form-urlencoded"
+    # request["Authorization"] = "Basic #{base64_encoded_client_id_and_secret}"
+    # request.set_form_data(
+    #   "grant_type" => "password",
+    #   "password" => api_key,
+    #   "username" => api_key,
+    # )
 
-    req_options = {
-      use_ssl: uri.scheme == "https",
-    }
+    # req_options = {
+    #   use_ssl: uri.scheme == "https",
+    # }
 
-    response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
-      http.request(request)
-    end
+    # response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+    #   http.request(request)
+    # end
 
-    logger.debug "------------------------------------------------- #{response.body.inspect} -------------------------------------------------------___-----"
     # response.code
     # response.body
 
-    # url = "#{OAUTH_PROVIDER_URL}/oauth/token"
+    url = "#{OAUTH_PROVIDER_URL}/oauth/token"
 
-    # response = HTTParty.post url, 
-    #   headers: { 
-    #     "Content-Type" => "application/x-www-form-urlencoded",
-    #     Authorization: "Basic #{base64_encoded_client_id_and_secret}"
-    #   },
-    #   body: {
-    #     grant_type: "password",
-    #     scope: "read write",
-    #     username: api_key,
-    #     password: api_key,
-    #     # redirect_uri: "/contact"
-    #   } 
+    response = HTTParty.post url, 
+      headers: { 
+        "Content-Type" => "application/x-www-form-urlencoded",
+        Authorization: "Basic #{base64_encoded_client_id_and_secret}"
+      },
+      body: {
+        grant_type: "password",
+        scope: "read write",
+        username: api_key,
+        password: api_key,
+        # redirect_uri: "/contact"
+      } 
 
+      logger.debug "------------------->>>>>>>>>> ### #{response.body.inspect} ### <<<<<<<<<<<<<<<----------------------"
   end
 
   private
