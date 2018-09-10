@@ -20,26 +20,30 @@ class ApplicationController < ActionController::Base
         password: api_key,
       } 
       
-      check_status_code response
+      if status_code_200? response
+        parsed_reponse = JSON.parse response.body
+        set_access_token parsed_reponse
+      end
   end
 
   private
 
-  def check_status_code(response)
+  def status_code_200?(response)
     parsed_reponse = JSON.parse response.body
     case response.code
       when 200
         logger.debug parsed_reponse
-        set_access_token parsed_reponse
-      when Net::HTTPUnauthorized
-        logger.debug "#{parsed_reponse} HTTPUnauthorized"
-        {'error' => "#{response.message}: Er de indtastede oplysninger korrekte?"}
-      when Net::HTTPServerError
-        logger.debug "#{parsed_reponse} HTTPServerError"
-        {'error' => "#{response.message}: Prøv igen senere?"}
+        true
+      # when Net::HTTPUnauthorized
+      #   logger.debug "#{parsed_reponse} HTTPUnauthorized"
+      #   {'error' => "#{response.message}: Er de indtastede oplysninger korrekte?"}
+      # when Net::HTTPServerError
+      #   logger.debug "#{parsed_reponse} HTTPServerError"
+      #   {'error' => "#{response.message}: Prøv igen senere?"}
       else
         logger.debug "#{parsed_reponse} Other error"
         {'error' => response.message}
+        false
       end
   end
 
@@ -50,19 +54,7 @@ class ApplicationController < ActionController::Base
   end
 
   def refresh_token_if_expired
-    if token_expired?
-      response    = RestClient.post "#{ENV['DOMAIN']}oauth2/token", :grant_type => 'refresh_token', :refresh_token => self.refresh_token, :client_id => ENV['APP_ID'], :client_secret => ENV['APP_SECRET']
-      refreshhash = JSON.parse(response.body)
-
-      token_will_change!
-      expiresat_will_change!
-
-      self.token     = refreshhash['access_token']
-      self.expiresat = DateTime.now + refreshhash["expires_in"].to_i.seconds
-
-      self.save
-      puts 'Saved'
-    end
+    create_session if token_expired?
   end
 
   def token_expired?
