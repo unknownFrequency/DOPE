@@ -1,7 +1,6 @@
 require 'net/http'
 
 class UsersController < ApplicationController
-  # before_action :authenticate
 
   def login
     @user = User.new
@@ -9,17 +8,24 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new user_params
-    base64_encoded_client_id_and_secret = Base64.encode64("#{params[:client_id]}:#{params[:client_secret]}")
-    DataController.create_session(params[:api_key], base64_encoded_client_id_and_secret)
+    base64_encoded_client_id_and_secret = Base64.strict_encode64("#{params[:user][:client_id]}:#{params[:user][:client_secret]}")
 
     respond_to do |format|
-      if @user.save && session[:current_access_token]
-        format.html { redirect_to user_path(@user), notice: 'Brugeren er nu oprettet.' }
-        format.json { render :show, status: :created, location: @user }
+      @user = User.new user_params unless User.exists? email: params[:user][:email] 
+
+      if @user && @user.save 
+	DataController.create_session( base64_encoded_client_id_and_secret, @user.api_key)
+	flash[:notice] = "Du er nu oprettet i databasen med email: #{params[:user][:email]}"
+	format.html { redirect_to user_path @user }
+	format.json { render :show }
+      elsif User.exists? email: params[:user][:email]
+	@user = User.where(email: params[:user][:email]).take
+	DataController.create_session(base64_encoded_client_id_and_secret, @user.api_key) 
+	format.html { redirect_to user_path @user }
+	format.json { render :show }
       else
-        format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+	format.html { render :new }
+	format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -29,12 +35,11 @@ class UsersController < ApplicationController
   end
 
   def show
-    
+    @user = User.find params[:id]
+    puts session.inspect
   end
 
   protected
-  def authenticate
-  end
 
   private
     def user_params
