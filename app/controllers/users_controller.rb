@@ -14,13 +14,13 @@ class UsersController < ApplicationController
       @user = User.new user_params unless User.exists? email: params[:user][:email] 
 
       if @user && @user.save 
-	DataController.create_session( base64_encoded_client_id_and_secret, @user.api_key)
+	create_session( base64_encoded_client_id_and_secret, @user.api_key)
 	flash[:notice] = "Du er nu oprettet i databasen med email: #{params[:user][:email]}"
 	format.html { redirect_to user_path @user }
 	format.json { render :show }
       elsif User.exists? email: params[:user][:email]
 	@user = User.where(email: params[:user][:email]).take
-	DataController.create_session(base64_encoded_client_id_and_secret, @user.api_key) 
+	create_session(base64_encoded_client_id_and_secret, @user.api_key) 
 	format.html { redirect_to user_path @user }
 	format.json { render :show }
       else
@@ -36,7 +36,6 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find params[:id]
-    puts session.inspect
   end
 
   protected
