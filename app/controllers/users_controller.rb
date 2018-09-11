@@ -4,11 +4,10 @@ class UsersController < ApplicationController
 
   def login
     @user = User.new
-    # @oauth = Data.new
   end
 
   def create
-    base64_encoded_client_id_and_secret = Base64.strict_encode64("#{params[:user][:client_id]}:#{params[:user][:client_secret]}")
+    base64_encoded_client_id_and_secret = base64_encode params[:user][:client_id], params[:user][:client_secret]
 
     respond_to do |format|
       @user = User.new user_params unless User.exists? email: params[:user][:email] 

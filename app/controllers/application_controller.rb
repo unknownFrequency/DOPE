@@ -1,9 +1,11 @@
 class ApplicationController < ActionController::Base
   OAUTH_PROVIDER_URL = "https://authz.dinero.dk/dineroapi"
 
-  before_action :set_session, unless: -> { session.exists? }
-  helper_method :set_session
+  before_action :refresh_token_if_expired, unless: -> { @user.nil? }
 
+  def base64_encode(client_id, client_secret)
+    Base64.strict_encode64 "#{client_id}:#{client_secret}" 
+  end
 
   def create_session(base64_encoded_client_id_and_secret, api_key)
     url = "#{OAUTH_PROVIDER_URL}/oauth/token"
@@ -49,19 +51,22 @@ class ApplicationController < ActionController::Base
 
   def set_access_token(parsed_reponse)
     session[:current_access_token] = parsed_reponse["access_token"]
-    session[:token_expires_at] = Time.now + parsed_reponse["expires_in"].to_i #3600
-    logger.debug "session token -------------> #{session[:token_expires_at]}"
+    session[:token_expires_at] = Time.now + parsed_reponse["expires_in"].to_i.seconds #3600
+    # logger.debug "session token -------------> #{session[:token_expires_at]}"
   end
 
   def refresh_token_if_expired
-    create_session if token_expired?
+    if !@user
+      redirect_to login_path
+    else
+      base64_encoded_client_id_and_secret = base64_encode @user.client_id, @user.client_secret
+      create_session(base64_encoded_client_id_and_secret, @user.api_key) if token_expired?
+    end
   end
 
   def token_expired?
-    expiry = Time.at session[:token_expires_at]
-    return true if expiry < Time.now # expired token, so we should quickly return
-    # token_expires_at = expiry
-    # save if changed?
+    expiry = Time.at session[:token_expires_at].to_i.seconds
+    return true if expiry < Time.now 
     false # token not expired. :D
   end
 end
