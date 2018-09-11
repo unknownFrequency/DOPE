@@ -35,6 +35,8 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find params[:id]
+    dinero = DineroController.new
+    @contacts = dinero.contacts session[:current_access_token]
   end
 
   protected

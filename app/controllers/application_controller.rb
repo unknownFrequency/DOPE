@@ -50,6 +50,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_access_token(parsed_reponse)
+    logger.debug "session token -------------> #{session[:current_access_token]}"
     session[:current_access_token] = parsed_reponse["access_token"]
     session[:token_expires_at] = Time.now + parsed_reponse["expires_in"].to_i.seconds #3600
     # logger.debug "session token -------------> #{session[:token_expires_at]}"
@@ -65,7 +66,7 @@ class ApplicationController < ActionController::Base
   end
 
   def token_expired?
-    expiry = Time.at session[:token_expires_at].to_i.seconds
+    expiry = Time.at session[:token_expires_at].to_i #.seconds
     return true if expiry < Time.now 
     false # token not expired. :D
   end

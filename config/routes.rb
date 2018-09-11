@@ -8,8 +8,10 @@ Rails.application.routes.draw do
   get 'user/:id', to: 'users#show', as: 'user'
   post 'users', to: 'users#create'
 
-  get '/oauth/callback', to: 'data#create_session'
+  # get '/oauth/callback', to: 'data#create_session'
   get 'session', to: 'data#create_session'
-  get 'index', to: 'data#index'
+  # get 'index', to: 'data#index'
+
+  get 'contacts', to: 'dinero#contacts'
 
 end
