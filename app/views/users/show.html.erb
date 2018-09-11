@@ -1,0 +1,15 @@
+<h1>Hej <%= @user.email %></h1>
+<h2>Session token <%= session[:current_access_token].inspect %></h2>
+<h2><%= "session token udløber om ------------->" %><%= session[:token_expires_at] %> </h2>
+
+<br />
+
+<h3>Kontakter</h3>
+<ul>
+<% @contacts.take(10).each do |contact| %>
+  <li>
+    <b><%= contact["name"] %></b><br />
+    <%= contact["contactGuid"] %>
+  </li>
+<% end %>
+</ul>
