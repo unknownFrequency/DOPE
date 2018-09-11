@@ -3,6 +3,20 @@
 <h2><%= "session token udløber om ------------->" %><%= session[:token_expires_at] %> </h2>
 
 <br />
+<br />
+
+<h3>Produkter</h3>
+<ul>
+<% @products.take(10).each do |product| %>
+  <li>
+    <b><%= product["Name"] %></b><br />
+    <%= product["ProductGuid"] %>
+  </li>
+<% end %>
+</ul>
+
+<br />
+<br />
 
 <h3>Kontakter</h3>
 <ul>
@@ -13,3 +27,4 @@
   </li>
 <% end %>
 </ul>
+

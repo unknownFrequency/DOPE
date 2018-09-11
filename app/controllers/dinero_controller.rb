@@ -7,7 +7,10 @@ class DineroController < ApplicationController
 
   def contacts(access_token)
     parsed_reponse = make_api_request access_token, "contacts"
-    parsed_reponse["Collection"]
+  end
+
+  def products(access_token)
+    parsed_reponse = make_api_request access_token, "products"
   end
 
   def make_api_request(access_token, path)
@@ -21,6 +24,7 @@ class DineroController < ApplicationController
             "Host" => "api.dinero.dk",
           }
 
-      JSON.parse response.body
+      parsed_reponse = JSON.parse response.body
+      parsed_reponse["Collection"]
   end
 end
