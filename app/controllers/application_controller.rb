@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
       #   logger.debug "#{parsed_reponse} HTTPServerError"
       #   {'error' => "#{response.message}: Prøv igen senere?"}
       else
-        logger.debug "#{parsed_reponse} Other error"
+        logger.debug "#{parsed_reponse} Fejl"
         {'error' => response.message}
         false
       end

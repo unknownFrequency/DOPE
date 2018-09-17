@@ -14,6 +14,7 @@ class DineroController < ApplicationController
   end
 
   def make_api_request(access_token, path)
+    # TODO: token_expired? && @user ? create_session()
       url = "#{ENV['DINERO_API_URL']}/#{ENV['ORGANIZATION_ID']}/#{path}"
 
       response = HTTParty.get url, 
