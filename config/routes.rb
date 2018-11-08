@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   post 'users', to: 'users#create'
 
   post 'dinero', to: 'dinero#post_trade_offer'
+  delete 'dinero', to: 'dinero#delete_trade_offer'
 
   # get '/oauth/callback', to: 'data#create_session'
   get 'session', to: 'data#create_session'

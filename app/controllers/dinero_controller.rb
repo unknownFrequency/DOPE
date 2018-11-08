@@ -7,12 +7,15 @@ class DineroController < ApplicationController
   end
 
   def post_trade_offer()
+    #todo 
+    # try catch.
+    # add repetive headers as consts
+    # contactname convert to guid
     response = HTTParty.post "#{ENV['DINERO_API_URL']}/#{ENV['ORGANIZATION_ID']}/tradeoffers", 
       headers: { 
         "Authorization" => "Bearer #{session[:current_access_token]}",
         "Host" => "api.dinero.dk",
         "Content-Type" => "application/json",
-        "Content-Length" => "821",
       },
       body: {
         ProductLines: [
@@ -26,6 +29,16 @@ class DineroController < ApplicationController
       }.to_json
 
       logger.debug JSON.parse response.body
+  end
+
+  def delete_trade_offer(guid)
+    response = HTTParty.delete "#{ENV['DINERO_API_URL']}/#{ENV['ORGANIZATION_ID']}/tradeoffers/#{guid}", 
+      headers: { 
+        "Authorization" => "Bearer #{session[:current_access_token]}",
+        "Host" => "api.dinero.dk",
+        "Content-Type" => "application/json",
+      }
+
   end
 
   def check_reponse_code(code)

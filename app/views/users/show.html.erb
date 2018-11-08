@@ -9,6 +9,11 @@
   <%= submit_tag "Create" %>
 <% end %>
 
+<%= form_tag(controller: "dinero", action: "delete_trade_offer", method: "post") do |f| %>
+  <%= text_field_tag "guid", "GUID" %>
+  <%= submit_tag "delete" %>
+<% end %>
+
 <ul>
 <% @trade_offers.each do |offer| %>
   <li><%= offer["contactName"] %></li> 
