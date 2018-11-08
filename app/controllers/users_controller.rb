@@ -38,6 +38,7 @@ class UsersController < ApplicationController
     access_token = session[:current_access_token]
     @contacts = dinero.contacts access_token
     @products = dinero.products access_token
+    @trade_offers = dinero.trade_offers access_token
   end
 
   protected

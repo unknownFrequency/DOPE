@@ -3,7 +3,20 @@
 <h2><%= "session token udløber om ------------->" %><%= session[:token_expires_at] %> </h2>
 
 <br />
-<br />
+<%= form_tag(controller: "dinero", action: "post_trade_offer", method: "post") do |f| %>
+  <%= text_field_tag :contactName %>
+  <%= text_area_tag :description %>
+  <%= submit_tag "Create" %>
+<% end %>
+
+<ul>
+<% @trade_offers.each do |offer| %>
+  <li><%= offer["contactName"] %></li> 
+  <li><%= offer["date"] %></li> 
+  <li><%= offer["description"] %></li> 
+  <br />
+<% end %>
+</ul>
 
 <h3>Produkter</h3>
 <ul>
