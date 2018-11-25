@@ -69,7 +69,9 @@ class DineroController < ApplicationController
       "Host" => "api.dinero.dk",
     }
 
-      parsed_reponse = JSON.parse response.body
-      parsed_reponse["Collection"]
+    puts "x------------------------------------------------> #{logger.debug response}"
+    puts "x------------------------------------------------> #{access_token}"
+      # parsed_reponse = JSON.parse response.body
+      # parsed_reponse["Collection"]
   end
 end

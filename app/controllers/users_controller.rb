@@ -36,16 +36,16 @@ class UsersController < ApplicationController
     @user = User.find params[:id]
     dinero = DineroController.new
     access_token = session[:current_access_token]
-    @contacts = dinero.contacts access_token
-    @products = dinero.products access_token
-    @trade_offers = dinero.trade_offers access_token
+    # @contacts = dinero.contacts access_token
+    # @products = dinero.products access_token
+    # @trade_offers = dinero.trade_offers access_token
   end
 
   protected
 
   private
     def user_params
-      params.require(:user).permit(:email, :client_id, :client_secret, :api_key)
+      params.require(:user).permit(:email, :client_id, :client_secret, :api_key, :encrypted_dinero_token)
     end
 
 end

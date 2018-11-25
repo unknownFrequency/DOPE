@@ -1,48 +1,48 @@
-<h1>Hej <%= @user.email %></h1>
-<h2>Session token <%= session[:current_access_token].inspect %></h2>
-<h2><%= "session token udløber om ------------->" %><%= session[:token_expires_at] %> </h2>
+<%# <h1>Hej <%= @user.email %1></h1> %>
+<%# <h2>Session token <%= session[:current_access_token].inspect %1></h2> %>
+<%# <h2><%= "session token udløber om ------------->" %1><%= session[:token_expires_at] %1> </h2> %>
 
-<br />
-<%= form_tag(controller: "dinero", action: "post_trade_offer", method: "post") do |f| %>
-  <%= text_field_tag :contactName %>
-  <%= text_area_tag :description %>
-  <%= submit_tag "Create" %>
-<% end %>
+<%# <br /> %>
+<%# <%= form_tag(controller: "dinero", action: "post_trade_offer", method: "post") do |f| %1> %>
+<%#   <%= text_field_tag :contactName %1> %>
+<%#   <%= text_area_tag :description %1> %>
+<%#   <%= submit_tag "Create" %1> %>
+<%# <% end %1> %>
 
-<%= form_tag(controller: "dinero", action: "delete_trade_offer", method: "post") do |f| %>
-  <%= text_field_tag "guid", "GUID" %>
-  <%= submit_tag "delete" %>
-<% end %>
+<%# <%= form_tag(controller: "dinero", action: "delete_trade_offer", method: "post") do |f| %1> %>
+<%#   <%= text_field_tag "guid", "GUID" %1> %>
+<%#   <%= submit_tag "delete" %1> %>
+<%# <% end %1> %>
 
-<ul>
-<% @trade_offers.each do |offer| %>
-  <li><%= offer["contactName"] %></li> 
-  <li><%= offer["date"] %></li> 
-  <li><%= offer["description"] %></li> 
-  <br />
-<% end %>
-</ul>
+<%# <ul> %>
+<%# <% @trade_offers.each do |offer| %1> %>
+<%#   <li><%= offer["contactName"] %1></li> %> 
+<%#   <li><%= offer["date"] %1></li> %> 
+<%#   <li><%= offer["description"] %1></li> %> 
+<%#   <br /> %>
+<%# <% end %1> %>
+<%# </ul> %>
 
-<h3>Produkter</h3>
-<ul>
-<% @products.take(10).each do |product| %>
-  <li>
-    <b><%= product["Name"] %></b><br />
-    <%= product["ProductGuid"] %>
-  </li>
-<% end %>
-</ul>
+<%# <h3>Produkter</h3> %>
+<%# <ul> %>
+<%# <% @products.take(10).each do |product| %1> %>
+<%#   <li> %>
+<%#     <b><%= product["Name"] %1></b><br /> %>
+<%#     <%= product["ProductGuid"] %1> %>
+<%#   </li> %>
+<%# <% end %1> %>
+<%# </ul> %>
 
-<br />
-<br />
+<%# <br /> %>
+<%# <br /> %>
 
-<h3>Kontakter</h3>
-<ul>
-<% @contacts.take(10).each do |contact| %>
-  <li>
-    <b><%= contact["name"] %></b><br />
-    <%= contact["contactGuid"] %>
-  </li>
-<% end %>
-</ul>
+<%# <h3>Kontakter</h3> %>
+<%# <ul> %>
+<%# <% @contacts.take(10).each do |contact| %1> %>
+<%#   <li> %>
+<%#     <b><%= contact["name"] %1></b><br /> %>
+<%#     <%= contact["contactGuid"] %1> %>
+<%#   </li> %>
+<%# <% end %1> %>
+<%# </ul> %>
 

@@ -28,8 +28,6 @@ class ApplicationController < ActionController::Base
       end
   end
 
-  private
-
   def status_code_200?(response)
     parsed_reponse = JSON.parse response.body
     case response.code
@@ -49,8 +47,11 @@ class ApplicationController < ActionController::Base
       end
   end
 
+  private
+
   def set_access_token(parsed_reponse)
-    logger.debug "session token -------------> #{session[:current_access_token]}"
+    OAuth.create! token: parsed_reponse["access_token"], user_id: @user.id
+    # logger.debug "session token -------------> #{session[:current_access_token]}"
     session[:current_access_token] = parsed_reponse["access_token"]
     session[:token_expires_at] = Time.now + parsed_reponse["expires_in"].to_i.seconds #3600
     # logger.debug "session token -------------> #{session[:token_expires_at]}"

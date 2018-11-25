@@ -10,13 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_17_095538) do
+ActiveRecord::Schema.define(version: 2018_11_10_212908) do
 
   create_table "jobs", force: :cascade do |t|
     t.string "body"
     t.boolean "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "o_auths", force: :cascade do |t|
+    t.string "token"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_o_auths_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
